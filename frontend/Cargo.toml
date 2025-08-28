@@ -8,3 +8,5 @@ yew = { version = "0.21", features = ["csr"] }
 gloo-net = "0.5"
 serde = { version = "1", features = ["derive"] }
 wasm-bindgen-futures = "0.4"
+web-sys = "0.3"
+chrono = { version = "0.4", features = ["serde"] }

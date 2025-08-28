@@ -18,6 +18,11 @@ wasm-pack.log
 *.swo
 *~
 
+# Database
+backend.db
+backend.db-shm
+backend.db-wal
+
 # OS
 .DS_Store
 .DS_Store?
