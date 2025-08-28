@@ -1,127 +1,165 @@
-# Full-Stack Rust Web Application
+# User Admin Panel
 
-A modern web application built with Rust, featuring an Axum backend with SQLite database and Yew WebAssembly frontend with admin interface.
+A full-stack Rust web application for user management with a clean, modern architecture following best practices.
 
 ## Architecture
 
-- **Backend**: Axum HTTP server with REST API and SQLx ORM
-- **Database**: SQLite with automatic schema creation
-- **Frontend**: Yew framework WebAssembly SPA with admin panel
-- **Build System**: Cargo workspace with Trunk
+### Backend (Axum + SQLite)
+```
+backend/src/
+├── main.rs           # Application entry point
+├── lib.rs            # Library root
+├── config.rs         # Configuration management
+├── errors.rs         # Error types and handling
+├── utils.rs          # Utility functions
+├── models/           # Data models
+│   ├── mod.rs
+│   └── user.rs       # User model and DTOs
+├── database/         # Database layer
+│   ├── mod.rs
+│   └── connection.rs # Database connection and migrations
+├── repositories/     # Data access layer
+│   ├── mod.rs
+│   └── user_repository.rs
+├── services/         # Business logic layer
+│   ├── mod.rs
+│   └── user_service.rs
+└── handlers/         # HTTP handlers
+    ├── mod.rs
+    ├── health.rs     # Health check endpoints
+    └── user.rs       # User API endpoints
+```
+
+### Frontend (Yew + WebAssembly)
+```
+frontend/src/
+├── main.rs           # Application entry point
+├── lib.rs            # Library root
+├── utils.rs          # Utility functions
+├── models/           # Data models
+│   ├── mod.rs
+│   └── user.rs       # User model and form data
+├── services/         # API services
+│   ├── mod.rs
+│   └── api.rs        # HTTP client for backend API
+├── hooks/            # Custom hooks for state management
+│   ├── mod.rs
+│   └── use_users.rs  # User management hooks
+└── components/       # UI components
+    ├── mod.rs
+    ├── user_form.rs  # User creation form
+    ├── user_list.rs  # User table display
+    └── user_row.rs   # Individual user row
+```
 
 ## Features
 
-- **CRUD Operations**: Full Create, Read, Update, Delete for users
-- **Admin Interface**: Web-based admin panel similar to Django admin
-- **Database ORM**: SQLx for type-safe database operations
-- **Auto Schema**: Database schema automatically initialized on startup
+### Backend
+- **Clean Architecture**: Layered architecture with clear separation of concerns
+- **Error Handling**: Comprehensive error handling with structured error types
+- **Input Validation**: Request validation using the `validator` crate
+- **Logging**: Structured logging with `tracing`
+- **Configuration**: Environment-based configuration
+- **Database**: SQLite with automatic migrations and seeding
+- **CORS**: Properly configured CORS for frontend communication
 
-## Quick Start
-
-### Prerequisites
-
-```bash
-rustup target add wasm32-unknown-unknown
-cargo install trunk
-```
-
-### Running the Application
-
-1. **Start Backend** (from project root):
-```bash
-cargo run -p backend
-```
-Backend serves at: http://127.0.0.1:3000
-Database automatically created and seeded
-
-2. **Start Frontend** (in new terminal):
-```bash
-cd frontend
-trunk serve --open
-```
-Frontend serves at: http://127.0.0.1:8080
+### Frontend
+- **Component Architecture**: Modular components with clear responsibilities  
+- **State Management**: Custom hooks for state management with useReducer
+- **Type Safety**: Full type safety with shared models
+- **Responsive Design**: Mobile-first responsive CSS
+- **Error Handling**: User-friendly error display and management
+- **Modern UI**: Clean, accessible user interface
 
 ## API Endpoints
 
-### General
-- `GET /api/hello` - Returns JSON greeting message
-
-### User Management
-- `GET /api/users` - List all users (supports ?limit=X&offset=Y)
-- `GET /api/users/:id` - Get specific user
+- `GET /api/health` - Health check
+- `GET /api/users` - List all users (with pagination support)
+- `GET /api/users/:id` - Get user by ID
 - `POST /api/users` - Create new user
 - `PUT /api/users/:id` - Update user
 - `DELETE /api/users/:id` - Delete user
 
-### Request/Response Examples
+## Development
 
-**Create User:**
-```json
-POST /api/users
-{
-  "name": "John Doe",
-  "email": "john@example.com"
-}
+### Prerequisites
+- Rust 1.70+ 
+- `trunk` for frontend development: `cargo install trunk`
+- `wasm-pack` for WebAssembly: `cargo install wasm-pack`
+
+### Running the Application
+
+1. **Start the backend server:**
+   ```bash
+   cd backend
+   cargo run
+   ```
+   Backend will run on `http://127.0.0.1:3000`
+
+2. **Start the frontend development server:**
+   ```bash
+   cd frontend
+   trunk serve
+   ```
+   Frontend will run on `http://127.0.0.1:8080`
+
+### Environment Variables
+
+Backend supports the following environment variables:
+- `DATABASE_URL`: SQLite database file path (default: `backend.db`)
+- `HOST`: Server host (default: `127.0.0.1`)
+- `PORT`: Server port (default: `3000`)
+
+### Building for Production
+
+1. **Backend:**
+   ```bash
+   cd backend
+   cargo build --release
+   ```
+
+2. **Frontend:**
+   ```bash
+   cd frontend
+   trunk build --release
+   ```
+
+## Code Quality Features
+
+### Backend Best Practices
+- **Modular Structure**: Clear separation between handlers, services, repositories
+- **Error Handling**: Custom error types with proper HTTP status mapping
+- **Input Validation**: Comprehensive request validation
+- **Database Layer**: Repository pattern with proper error handling
+- **Logging**: Structured logging throughout the application
+- **Type Safety**: Strong typing for all data structures
+
+### Frontend Best Practices  
+- **Component Architecture**: Single-responsibility components
+- **State Management**: Reducer pattern for complex state
+- **Custom Hooks**: Reusable logic encapsulation
+- **Type Safety**: Shared types between frontend and backend
+- **Error Boundaries**: Proper error handling and display
+- **Responsive Design**: Mobile-first approach
+
+## Testing
+
+To run tests:
+```bash
+# Backend tests
+cd backend
+cargo test
+
+# Frontend tests
+cd frontend  
+cargo test
 ```
 
-**Update User:**
-```json
-PUT /api/users/:id
-{
-  "name": "Jane Doe",
-  "email": "jane@example.com"
-}
-```
+## Project Structure Benefits
 
-## Technology Stack
-
-### Backend
-- **Axum** - Web framework
-- **SQLx** - Async SQL toolkit and ORM
-- **SQLite** - Database
-- **Tokio** - Async runtime
-- **Serde** - JSON serialization
-- **Tower-HTTP** - CORS middleware
-- **UUID** - Unique identifiers
-- **Chrono** - Date/time handling
-
-### Frontend
-- **Yew** - WebAssembly framework
-- **Gloo-net** - HTTP client
-- **Web-sys** - Web API bindings
-- **Trunk** - Build tool and dev server
-
-## Project Structure
-
-```
-website1/
-├── backend/
-│   ├── src/main.rs       # API server with CRUD operations
-│   └── Cargo.toml
-├── frontend/
-│   ├── src/main.rs       # Admin interface SPA
-│   ├── dist/             # Built assets
-│   └── Cargo.toml
-├── backend.db             # SQLite database (auto-created)
-└── Cargo.toml            # Workspace config
-```
-
-## Database Schema
-
-### Users Table
-- `id`: TEXT (UUID primary key)
-- `name`: TEXT (user's name)
-- `email`: TEXT (unique email)
-- `created_at`: TEXT (ISO 8601 timestamp)
-- `updated_at`: TEXT (ISO 8601 timestamp)
-
-## Admin Interface
-
-The frontend provides a complete admin interface with:
-
-- **User List**: View all users in a table
-- **Create User**: Form to add new users
-- **Edit User**: Inline editing of user details
-- **Delete User**: Remove users with confirmation
-- **Error Handling**: Display API errors to user
-- **Real-time Updates**: Interface updates immediately after operations
+1. **Maintainability**: Clear module boundaries make the code easy to understand and modify
+2. **Testability**: Each layer can be tested independently
+3. **Scalability**: Easy to add new features without affecting existing code
+4. **Code Reuse**: Shared types and utilities across the application
+5. **Performance**: Efficient state management and minimal re-renders
+6. **Developer Experience**: Good error messages and debugging capabilities
