@@ -6,6 +6,7 @@ edition = "2021"
 [dependencies]
 # Yew framework and WebAssembly
 yew = { version = "0.21", features = ["csr"] }
+yew-router = "0.18"
 wasm-bindgen-futures = "0.4"
 web-sys = "0.3"
 

@@ -1,11 +1,7 @@
-use axum::{
-    routing::get,
-    Router,
-};
 use backend::{
     config::Config,
     database::create_pool,
-    handlers::{health_check, create_user, delete_user, get_user, get_users, update_user},
+    routes::app_router,
     repositories::UserRepository,
     services::UserService,
     utils::{create_cors, setup_tracing},
@@ -32,16 +28,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let user_service = UserService::new(user_repository);
 
     // Setup routes
-    let app = Router::new()
-        // Health check
-        .route("/api/health", get(health_check))
-        // User routes
-        .route("/api/users", get(get_users).post(create_user))
-        .route(
-            "/api/users/:id",
-            get(get_user).put(update_user).delete(delete_user),
-        )
-        // Middleware
+    let app = app_router()
         .layer(create_cors())
         .with_state(user_service);
 

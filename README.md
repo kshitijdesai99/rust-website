@@ -12,6 +12,7 @@ backend/src/
 ├── config.rs         # Configuration management
 ├── errors.rs         # Error types and handling
 ├── utils.rs          # Utility functions
+├── routes.rs         # Application routes
 ├── models/           # Data models
 │   ├── mod.rs
 │   └── user.rs       # User model and DTOs
@@ -30,11 +31,12 @@ backend/src/
     └── user.rs       # User API endpoints
 ```
 
-### Frontend (Yew + WebAssembly)
+### Frontend (Yew + WebAssembly + Yew Router)
 ```
 frontend/src/
-├── main.rs           # Application entry point
+├── main.rs           # Application entry point with router setup
 ├── lib.rs            # Library root
+├── routes.rs         # Application routes and components
 ├── utils.rs          # Utility functions
 ├── models/           # Data models
 │   ├── mod.rs
@@ -69,7 +71,13 @@ frontend/src/
 - **Type Safety**: Full type safety with shared models
 - **Responsive Design**: Mobile-first responsive CSS
 - **Error Handling**: User-friendly error display and management
+- **Client-side Routing**: Yew Router for navigation between pages
 - **Modern UI**: Clean, accessible user interface
+
+## Frontend Routes
+
+- `/` - Home page with welcome message and navigation
+- `/user-admin` - User administration panel (create, view, update, delete users)
 
 ## API Endpoints
 
