@@ -1,7 +1,6 @@
+use crate::config::API_BASE_URL;
 use crate::models::{CreateUserRequest, UpdateUserRequest, User};
 use gloo_net::http::Request;
-
-const API_BASE: &str = "http://127.0.0.1:3000/api";
 
 /// API client for user operations
 pub struct UserApi;
@@ -9,7 +8,7 @@ pub struct UserApi;
 impl UserApi {
     /// Get all users
     pub async fn get_users() -> Result<Vec<User>, String> {
-        let url = format!("{}/users", API_BASE);
+        let url = format!("{}/users", API_BASE_URL);
         
         Request::get(&url)
             .send()
@@ -22,7 +21,7 @@ impl UserApi {
 
     /// Get user by ID
     pub async fn get_user(id: &str) -> Result<User, String> {
-        let url = format!("{}/users/{}", API_BASE, id);
+        let url = format!("{}/users/{}", API_BASE_URL, id);
         
         Request::get(&url)
             .send()
@@ -35,7 +34,7 @@ impl UserApi {
 
     /// Create a new user
     pub async fn create_user(request: CreateUserRequest) -> Result<User, String> {
-        let url = format!("{}/users", API_BASE);
+        let url = format!("{}/users", API_BASE_URL);
         
         Request::post(&url)
             .json(&request)
@@ -50,7 +49,7 @@ impl UserApi {
 
     /// Update an existing user
     pub async fn update_user(id: &str, request: UpdateUserRequest) -> Result<User, String> {
-        let url = format!("{}/users/{}", API_BASE, id);
+        let url = format!("{}/users/{}", API_BASE_URL, id);
         
         Request::put(&url)
             .json(&request)
@@ -65,7 +64,7 @@ impl UserApi {
 
     /// Delete a user
     pub async fn delete_user(id: &str) -> Result<(), String> {
-        let url = format!("{}/users/{}", API_BASE, id);
+        let url = format!("{}/users/{}", API_BASE_URL, id);
         
         let response = Request::delete(&url)
             .send()

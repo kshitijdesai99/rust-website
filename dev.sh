@@ -11,6 +11,12 @@ case "$1" in
     echo "Frontend will run on http://127.0.0.1:8080"
     echo ""
     
+    # Load environment variables from .env file
+    if [ -f ".env" ]; then
+        echo "Loading environment variables from .env..."
+        export $(grep -v '^#' .env | xargs)
+    fi
+    
     # Start backend in background
     echo "Starting backend..."
     cd backend
@@ -41,6 +47,12 @@ case "$1" in
     
   "build")
     echo "Building for production..."
+    
+    # Load environment variables from .env file
+    if [ -f ".env" ]; then
+        echo "Loading environment variables from .env..."
+        export $(grep -v '^#' .env | xargs)
+    fi
     
     # Build backend
     echo "Building backend..."

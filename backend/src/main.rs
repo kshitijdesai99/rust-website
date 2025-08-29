@@ -28,9 +28,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let user_service = UserService::new(user_repository);
 
     // Setup routes
-    let app = app_router()
-        .layer(create_cors())
-        .with_state(user_service);
+    let app = app_router(user_service)
+        .layer(create_cors());
 
     // Start server
     let addr: SocketAddr = config.server_address().parse()?;
