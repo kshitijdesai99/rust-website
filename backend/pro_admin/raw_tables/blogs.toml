@@ -1,0 +1,42 @@
+[table]
+# Table configuration for blogs
+
+[filter]
+# Filter configuration for blogs table
+
+[editor]
+# Editor configuration for blogs table
+enable = true
+# Title field to be shown
+title_field = "title"
+# Display following columns in sequence from left to right in the table view
+fields = [
+  { title = "ID", field = "id", span = 6 },
+  { field = "author_id", span = 6 },
+  { field = "title", span = 12 },
+  { field = "slug", span = 12 },
+  { field = "status", span = 6 },
+  { field = "published_at", span = 6 },
+  { field = "excerpt", span = 12, input_type = "textarea", rows = 4 },
+  { field = "content", span = 24, input_type = "textarea", rows = 12 },
+  { field = "created_at", span = 12 },
+  { field = "updated_at", span = 12 },
+]
+
+[create]
+# Enable create for blogs table
+enable = true
+# Columns that are hidden on the create form
+hidden_columns = ["id", "created_at", "updated_at"]
+
+[update]
+# Enable update for blogs table
+enable = true
+# Columns that are hidden on the update form
+hidden_columns = ["created_at", "updated_at"]
+# Columns that are readonly on the update form
+readonly_columns = ["id", "slug"]
+
+[delete]
+# Enable delete for blogs table
+enable = true

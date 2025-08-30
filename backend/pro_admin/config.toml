@@ -1,0 +1,9 @@
+[site]
+[site.theme]
+title = "SeaORM Pro Admin Panel"
+logo = "/admin/favicon.ico"
+login_banner = "/admin/logo.png"
+copyright = "Powered by SeaORM Pro"
+
+[composite_tables]
+# Composite tables configuration

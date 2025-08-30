@@ -1,0 +1,23 @@
+# Trunk configuration file
+# Trunk is a tool that helps build and serve Yew applications during development
+# Think of it like a helpful assistant that watches your code and rebuilds when you make changes
+
+[build]
+# The main HTML file that Trunk will use as a template
+target = "index.html"
+
+# Where to put the built files
+dist = "dist"
+
+# Enable file watching for automatic rebuilds during development
+[watch]
+# Watch these file types for changes
+watch = ["src", "index.html", "styles.css", "input.css", "tailwind.config.js"]
+
+# Development server settings
+[serve]
+# Bind to localhost on port 8080
+addresses = ["127.0.0.1"]
+port = 8080
+# Automatically open browser when starting the server
+open = true

@@ -1,20 +1,35 @@
+# This file tells Rust about our frontend project and what libraries we need
+# Think of it like a shopping list for code dependencies
+
 [package]
-name = "frontend"
-version = "0.1.0"
-edition = "2021"
+name = "frontend"       # The name of our frontend project
+version = "0.1.0"      # Current version (we start at 0.1.0)
+edition = "2021"       # Which version of Rust language features to use
 
 [dependencies]
-# Yew framework and WebAssembly
-yew = { version = "0.21", features = ["csr"] }
-yew-router = "0.18"
-wasm-bindgen-futures = "0.4"
-web-sys = "0.3"
+# Yew framework - The main tool for building web interfaces in Rust (like React for JavaScript)
+yew = { version = "0.21", features = ["csr"] }    # "csr" means Client Side Rendering
+yew-router = "0.18"                                # For navigating between different pages
 
-# HTTP client
-gloo-net = "0.5"
+# WebAssembly and Browser APIs - These help Rust code run in web browsers
+wasm-bindgen-futures = "0.4"    # For handling async operations in the browser
+wasm-bindgen = { version = "0.2", features = ["serde-serialize"] }  # The bridge between Rust and JavaScript
+web-sys = { version = "0.3", features = [
+    "HtmlInputElement",     # For working with input fields
+    "HtmlTextAreaElement",  # For working with text areas
+    "HtmlSelectElement",    # For working with dropdown menus
+    "EventTarget"          # For handling user interactions (clicks, typing, etc.)
+] }
 
-# Serialization
-serde = { version = "1", features = ["derive"] }
+# HTTP client - For making requests to our backend API
+gloo-net = "0.5"  # Easy-to-use HTTP client for web browsers
+
+# Data handling
+serde = { version = "1", features = ["derive"] }  # For converting data between formats (like JSON)
 
 # Date/time handling
-chrono = { version = "0.4", features = ["serde", "wasm-bindgen"] }
+chrono = { version = "0.4", features = ["serde", "wasm-bindgen"] }  # For working with dates and times
+
+# Build configuration for WebAssembly
+[lib]
+crate-type = ["cdylib"]  # Build WebAssembly library

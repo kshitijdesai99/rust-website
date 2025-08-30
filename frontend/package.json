@@ -1,0 +1,16 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "``` frontend/ ├── Cargo.toml               # Shopping list of Rust libraries our app needs ├── Trunk.toml               # Settings for the build tool (like a recipe for building) ├── index.html               # The main HTML page that loads our Rust app ├── styles.css               # Makes our website look pretty (colors, fonts, layout) ├── src/                     # All the Rust code for our web application │   ├── main.rs              # Starting point - first code that runs │   ├── lib.rs               # Main coordinator - connects all parts together │   ├── config.rs            # Settings and constants (like API server address) │   ├── errors.rs            # Defines what can go wrong and error messages │   ├── routes.rs            # Different pages/screens (Home, About, Contact, 404) │   ├── components/          # Reusable UI pieces (like LEGO blocks for building pages) │   │   ├── mod.rs           # Tells Rust about the components folder │   │   ├── header.rs        # Top navigation bar component │   │   ├── footer.rs        # Bottom footer component │   │   ├── button.rs        # Reusable button component │   │   └── form.rs          # Form input components (text fields, etc.) │   └── services/            # Code that talks to external systems │       ├── mod.rs           # Tells Rust about the services folder │       ├── api.rs           # Functions for making HTTP requests to backend │       └── storage.rs       # Functions for saving data in browser storage └── dist/                    # Built website files (created when you build the project) ```",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "tailwindcss": "^4.1.12"
+  }
+}

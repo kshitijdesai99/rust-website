@@ -1,173 +1,116 @@
-# User Admin Panel
+# 🦀 Rust Full-Stack Web Application
 
-A full-stack Rust web application for user management with a clean, modern architecture following best practices.
+> **Strategy:** Build a modern, type-safe web application using Rust across the entire stack for maximum performance, safety, and maintainability.
 
-## Architecture
+## ⚡ Quick Start — Basic Health Check Landing Page
 
-### Backend (Axum + SQLite)
-```
-backend/src/
-├── main.rs           # Application entry point
-├── lib.rs            # Library root
-├── config.rs         # Configuration management
-├── errors.rs         # Error types and handling
-├── utils.rs          # Utility functions
-├── routes.rs         # Application routes
-├── models/           # Data models
-│   ├── mod.rs
-│   └── user.rs       # User model and DTOs
-├── database/         # Database layer
-│   ├── mod.rs
-│   └── connection.rs # Database connection and migrations
-├── repositories/     # Data access layer
-│   ├── mod.rs
-│   └── user_repository.rs
-├── services/         # Business logic layer
-│   ├── mod.rs
-│   └── user_service.rs
-└── handlers/         # HTTP handlers
-    ├── mod.rs
-    ├── health.rs     # Health check endpoints
-    └── user.rs       # User API endpoints
+- **Run dev env:** `bash dev.sh dev`
+- **Frontend:** http://127.0.0.1:8080
+- **Backend:**  http://127.0.0.1:3000
+- **Health API:** `GET /health` returns `{ "status": "healthy", "timestamp": ... }`
+- **UI:** A simple landing page with a "Check Health" button that calls the Health API and displays the result.
+
+Troubleshooting:
+- If frontend fails with `unresolved module or unlinked crate 'frontend'`, ensure `frontend/Cargo.toml` has:
+
+```toml
+[lib]
+crate-type = ["cdylib", "rlib"]
 ```
 
-### Frontend (Yew + WebAssembly + Yew Router)
+## 🎯 Strategic Goals
+
+### **Performance First**
+- **Backend:** Async Rust with Axum for high-concurrency API handling
+- **Frontend:** WebAssembly for near-native browser performance
+- **Database:** SQLx for compile-time verified, zero-cost SQL queries
+
+### **Type Safety Everywhere**
+- End-to-end type safety from database to UI
+- Compile-time error prevention
+- Shared data models between frontend and backend
+
+### **Developer Experience**
+- Single command development workflow (`./dev.sh dev`)
+- Hot reload for rapid iteration
+- Comprehensive error messages and debugging
+
+## 🏗️ Architecture Strategy
+
 ```
-frontend/src/
-├── main.rs           # Application entry point with router setup
-├── lib.rs            # Library root
-├── routes.rs         # Application routes and components
-├── utils.rs          # Utility functions
-├── models/           # Data models
-│   ├── mod.rs
-│   └── user.rs       # User model and form data
-├── services/         # API services
-│   ├── mod.rs
-│   └── api.rs        # HTTP client for backend API
-├── hooks/            # Custom hooks for state management
-│   ├── mod.rs
-│   └── use_users.rs  # User management hooks
-└── components/       # UI components
-    ├── mod.rs
-    ├── user_form.rs  # User creation form
-    ├── user_list.rs  # User table display
-    └── user_row.rs   # Individual user row
+┌─────────────────┐    HTTP/JSON    ┌──────────────────┐
+│   Yew Frontend  │ ◄──────────────►│  Axum Backend    │
+│   (WebAssembly) │                 │  (API Server)    │
+└─────────────────┘                 └──────────────────┘
+         │                                     │
+         │                                     │
+    Browser APIs                        ┌─────────────┐
+    Local Storage                       │   SQLite    │
+                                        │  Database   │
+                                        └─────────────┘
 ```
 
-## Features
+**Clean Architecture Principles:**
+- **Domain-Driven Design:** Business logic isolated from infrastructure
+- **Dependency Inversion:** High-level modules don't depend on low-level details
+- **Separation of Concerns:** Each layer has a single responsibility
 
-### Backend
-- **Clean Architecture**: Layered architecture with clear separation of concerns
-- **Error Handling**: Comprehensive error handling with structured error types
-- **Input Validation**: Request validation using the `validator` crate
-- **Logging**: Structured logging with `tracing`
-- **Configuration**: Environment-based configuration
-- **Database**: SQLite with automatic migrations and seeding
-- **CORS**: Properly configured CORS for frontend communication
+## 📋 Development Strategy
 
-### Frontend
-- **Component Architecture**: Modular components with clear responsibilities  
-- **State Management**: Custom hooks for state management with useReducer
-- **Type Safety**: Full type safety with shared models
-- **Responsive Design**: Mobile-first responsive CSS
-- **Error Handling**: User-friendly error display and management
-- **Client-side Routing**: Yew Router for navigation between pages
-- **Modern UI**: Clean, accessible user interface
+### **Best Practices Framework**
 
-## Frontend Routes
+#### 🎯 **Code Quality Standards**
+1. **Big Picture Comments** - Every file explains its purpose and role
+2. **Beginner-Friendly Documentation** - Code reads like a story
+3. **Single Responsibility** - Each function/module does one thing well
+4. **Smart Modularization** - Balance between simplicity and organization
+5. **Minimal Verbosity** - Elegant, concise, purposeful code
+6. **Consistent Naming** - Use snake_case for functions and variables
+7. **Maintainability** - Clear file organization and documentation with no file more than 500 lines of code
 
-- `/` - Home page with welcome message and navigation
-- `/user-admin` - User administration panel (create, view, update, delete users)
+#### 🔧 **Technical Decisions**
+- **Rust-First:** No JavaScript, minimal external dependencies
+- **Type-Safe APIs:** Shared models between frontend/backend
+- **Database-First:** Schema-driven development with migrations
+- **Component Architecture:** Reusable, composable UI pieces
+- **Error-First Design:** Comprehensive error handling and user feedback
+- **Tailwind CSS:** For styling and layout
+- **Theme:** see .env
 
-## API Endpoints
+#### 📦 **Dependency Strategy**
+- **Proven Libraries:** Axum, Yew, SQLx, Tokio
+- **Minimal Footprint:** Avoid dependencies for trivial functionality
+- **Security-Focused:** Regular updates, vulnerability scanning
+- **Performance-Oriented:** Zero-cost abstractions where possible
 
-- `GET /api/health` - Health check
-- `GET /api/users` - List all users (with pagination support)
-- `GET /api/users/:id` - Get user by ID
-- `POST /api/users` - Create new user
-- `PUT /api/users/:id` - Update user
-- `DELETE /api/users/:id` - Delete user
+## 🚀 Quick Start Strategy
 
-## Development
-
-### Prerequisites
-- Rust 1.70+ 
-- `trunk` for frontend development: `cargo install trunk`
-- `wasm-pack` for WebAssembly: `cargo install wasm-pack`
-
-### Running the Application
-
-1. **Start the backend server:**
-   ```bash
-   cd backend
-   cargo run
-   ```
-   Backend will run on `http://127.0.0.1:3000`
-
-2. **Start the frontend development server:**
-   ```bash
-   cd frontend
-   trunk serve
-   ```
-   Frontend will run on `http://127.0.0.1:8080`
-
-### Environment Variables
-
-Backend supports the following environment variables:
-- `DATABASE_URL`: SQLite database file path (default: `backend.db`)
-- `HOST`: Server host (default: `127.0.0.1`)
-- `PORT`: Server port (default: `3000`)
-
-### Building for Production
-
-1. **Backend:**
-   ```bash
-   cd backend
-   cargo build --release
-   ```
-
-2. **Frontend:**
-   ```bash
-   cd frontend
-   trunk build --release
-   ```
-
-## Code Quality Features
-
-### Backend Best Practices
-- **Modular Structure**: Clear separation between handlers, services, repositories
-- **Error Handling**: Custom error types with proper HTTP status mapping
-- **Input Validation**: Comprehensive request validation
-- **Database Layer**: Repository pattern with proper error handling
-- **Logging**: Structured logging throughout the application
-- **Type Safety**: Strong typing for all data structures
-
-### Frontend Best Practices  
-- **Component Architecture**: Single-responsibility components
-- **State Management**: Reducer pattern for complex state
-- **Custom Hooks**: Reusable logic encapsulation
-- **Type Safety**: Shared types between frontend and backend
-- **Error Boundaries**: Proper error handling and display
-- **Responsive Design**: Mobile-first approach
-
-## Testing
-
-To run tests:
 ```bash
-# Backend tests
-cd backend
-cargo test
-
-# Frontend tests
-cd frontend  
-cargo test
+# Strategic workflow for maximum efficiency
+./dev.sh setup    # One-time environment preparation
+./dev.sh dev      # Start full development environment
+./dev.sh test     # Comprehensive quality assurance
+./dev.sh build    # Production-ready deployment
 ```
 
-## Project Structure Benefits
+## 📊 Success Metrics
 
-1. **Maintainability**: Clear module boundaries make the code easy to understand and modify
-2. **Testability**: Each layer can be tested independently
-3. **Scalability**: Easy to add new features without affecting existing code
-4. **Code Reuse**: Shared types and utilities across the application
-5. **Performance**: Efficient state management and minimal re-renders
-6. **Developer Experience**: Good error messages and debugging capabilities
+### **Performance Targets**
+- API response times: < 100ms for basic operations
+- Frontend bundle size: < 500KB optimized WebAssembly
+- Database queries: < 10ms for indexed operations
+- Build times: < 30s for incremental development builds
+
+### **Code Quality Metrics**
+- Test coverage: > 80% for business logic
+- Documentation coverage: 100% for public APIs
+- Clippy warnings: Zero tolerance policy
+- Dependency vulnerabilities: Automated scanning and updates
+
+### **Developer Experience Goals**
+- Setup time: < 5 minutes for new developers
+- Feedback loop: < 3 seconds for development changes
+- Error clarity: Self-explanatory error messages
+- Learning curve: Comprehensive beginner-friendly documentation
+
+📚 **See [OVERVIEW.md](./OVERVIEW.md) for detailed setup and architecture information**

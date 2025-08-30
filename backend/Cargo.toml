@@ -5,25 +5,51 @@ edition = "2021"
 
 [dependencies]
 # Web framework and HTTP
-axum = "0.7"
-tower-http = { version = "0.5", features = ["cors"] }
-tokio = { version = "1", features = ["full"] }
+axum = "0.8"
+tower-http = { version = "0.6", features = ["cors", "fs"] }
+tokio = { version = "1.42", features = ["full"] }
 
 # Serialization
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
 
-# Database
-sqlx = { version = "0.7", features = ["runtime-tokio-rustls", "sqlite", "chrono", "uuid"] }
+# Database - SeaORM
+sea-orm = { version = "1.1", features = ["runtime-tokio-rustls", "sqlx-sqlite", "chrono", "uuid", "macros"] }
+sea-orm-migration = "1.1"
+
+# GraphQL and SeaORM Pro
+seaography = { version = "1.1", features = ["with-decimal", "with-chrono", "with-uuid", "field-snake-case"] }
+sea-orm-pro = { version = "0.1" }
+async-graphql = "7.0"
+async-graphql-axum = "7.0"
+
+# Authentication
+jsonwebtoken = "9.3"
+bcrypt = "0.16"
 
 # Date/time and UUID
 chrono = { version = "0.4", features = ["serde"] }
-uuid = { version = "1.0", features = ["serde", "v4"] }
+uuid = { version = "1.11", features = ["serde", "v4"] }
 
 # Validation and error handling
 validator = { version = "0.18", features = ["derive"] }
-thiserror = "1.0"
+thiserror = "2.0"
+anyhow = "1.0"
 
 # Logging and tracing
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["fmt"] }
+
+# Environment variables
+dotenvy = "0.15"
+
+# Static file serving for admin panel
+tower = { version = "0.5", features = ["util"] }
+
+[dev-dependencies]
+axum-test = "15.7"
+
+# This tells Rust how to build our executable
+[[bin]]
+name = "backend"     # Name of the executable file
+path = "src/main.rs" # Where to find the main function

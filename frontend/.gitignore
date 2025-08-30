@@ -1,0 +1,35 @@
+# Frontend-specific files to ignore in git
+# These are files that get created when building but shouldn't be saved in version control
+
+# Trunk build output
+dist/              # Built website files (created by 'trunk build')
+
+# Rust build artifacts
+target/            # Compiled Rust code
+Cargo.lock         # Exact dependency versions (auto-generated)
+
+# WebAssembly artifacts
+pkg/               # Generated WebAssembly files
+*.wasm             # WebAssembly binary files
+
+# IDE/Editor files
+.vscode/           # VS Code settings
+.idea/             # IntelliJ IDEA settings
+*.swp              # Vim swap files
+*.swo              # Vim swap files
+*~                 # Temporary files
+
+# OS files
+.DS_Store          # macOS folder info
+.DS_Store?         # macOS folder info variations
+._*                # macOS resource forks
+Thumbs.db          # Windows thumbnail cache
+ehthumbs.db        # Windows thumbnail cache
+
+# Log files
+*.log              # Any log files
+npm-debug.log*     # Node.js debug logs (if using any Node tools)
+
+# Environment files (if any)
+.env               # Local environment variables
+.env.local         # Local environment overrides

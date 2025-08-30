@@ -1,0 +1,37 @@
+[table]
+# Table configuration for users
+
+[filter]
+# Filter configuration for users table
+
+[editor]
+# Editor configuration for users table
+enable = true
+# Title field to be shown
+title_field = "name"
+# Display following columns in sequence from left to right in the table view
+fields = [
+  { title = "ID", field = "id", span = 8 },
+  { field = "email", span = 8 },
+  { field = "name", span = 8 },
+  { field = "created_at", span = 8 },
+  { field = "updated_at", span = 8 },
+]
+
+[create]
+# Enable create for users table
+enable = true
+# Columns that are hidden on the create form
+hidden_columns = ["id", "created_at", "updated_at"]
+
+[update]
+# Enable update for users table
+enable = true
+# Columns that are hidden on the update form
+hidden_columns = ["created_at", "updated_at"]
+# Columns that are readonly on the update form
+readonly_columns = ["id"]
+
+[delete]
+# Enable delete for users table
+enable = true
