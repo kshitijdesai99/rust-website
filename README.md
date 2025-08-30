@@ -78,7 +78,7 @@ crate-type = ["cdylib", "rlib"]
 - **Theme:** see .env
 
 #### 📦 **Dependency Strategy**
-- **Proven Libraries:** Axum, Yew, SQLx, Tokio
+- **Proven Libraries:** Axum, Yew, SeaORM, SeaORM pro
 - **Minimal Footprint:** Avoid dependencies for trivial functionality
 - **Security-Focused:** Regular updates, vulnerability scanning
 - **Performance-Oriented:** Zero-cost abstractions where possible
