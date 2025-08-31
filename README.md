@@ -23,7 +23,7 @@ crate-type = ["cdylib", "rlib"]
 ### **Performance First**
 - **Backend:** Async Rust with Axum for high-concurrency API handling
 - **Frontend:** WebAssembly for near-native browser performance
-- **Database:** SQLx for compile-time verified, zero-cost SQL queries
+- **Database:** SeaORM for compile-time verified, zero-cost SQL queries
 
 ### **Type Safety Everywhere**
 - End-to-end type safety from database to UI
