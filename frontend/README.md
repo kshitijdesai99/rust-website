@@ -35,13 +35,13 @@ Rust-based frontend using Yew framework.
 - App identity: `APP_NAME`, `APP_VERSION` in `src/config.rs`.
 
 ## API integration patterns
-- HTTP client: `src/services/api.rs` using `gloo_net::http::Request`.
+- HTTP client examples in `src/services/health.rs` and `src/services/blogs.rs` using `gloo_net::http::Request`.
 - Blogs endpoints implemented:
   - `list_blogs(page, per_page)`
   - `get_blog_by_slug(slug)`
 - Pattern to add new endpoints:
   1. Define response models with `serde::Deserialize`.
-  2. Add request function on `ApiService` returning `Result<T, String>`.
+  2. Add a request function in a module under `src/services/` returning `Result<T, String>`.
   3. Use from pages/components via `wasm_bindgen_futures::spawn_local` + Yew hooks.
 
 ## Routing conventions
