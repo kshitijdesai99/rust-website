@@ -15,107 +15,75 @@ Servers:
 - **Admin Panel:** http://localhost:3000/admin
 - **GraphQL Playground:** http://localhost:3000/api/graphql
 
-## Features
+> For a high-level introduction (stack, endpoints, structure, and basics), see `backend/OVERVIEW.md`.
 
-- **Database:** SQLite with SeaORM and migrations
-- **Authentication:** JWT-based user authentication  
-- **GraphQL API:** Auto-generated from SeaORM entities
-- **Admin Panel:** SeaORM Pro web interface
-- **CORS:** Enabled for frontend integration
+## What this README covers
+- Advanced developer workflows
+- Configuration details (CORS, env management)
+- Database/migration lifecycle notes
+- Testing strategy
+- Extending routes, handlers, entities, and GraphQL
+- Admin panel customization tips
+- Release/build guidance and security checklist
 
-## API Endpoints
+## Development workflows
+- Use the root helper script `./dev.sh dev` to run backend and frontend together (see `dev.sh help`).
+- Backend only:
+  ```bash
+  cd backend
+  RUST_LOG=info cargo run
+  ```
+- Adjust log verbosity via `RUST_LOG` (e.g., `debug`, `info`, `warn`).
 
-### Health & Status
-- `GET /health` - Server health check
-- `GET /api/v1/status` - API status
+## Configuration details
+- Environment variables: see `backend/OVERVIEW.md` for the canonical list. Tips:
+  - Place backend-specific values in `backend/.env`. The root `./dev.sh dev` loads both root `.env` and `backend/.env`.
+  - Keep secrets (e.g., `JWT_SECRET`) out of version control.
+- CORS: configured in `src/api/routes.rs` using `CorsLayer` with permissive defaults:
+  - `allow_origin(Any)`, `allow_methods(Any)`, `allow_headers(Any)`.
+  - For production, restrict origins/methods/headers as needed.
 
-### Authentication
-- `POST /api/auth/login` - User login
-- `GET /api/user/current` - Current user info (requires auth)
+## Database and migrations
+- SQLite database file is created locally (`backend/data.db`).
+- Migrations execute during startup; migration source lives under `src/migration/`.
+- To add a new table/entity:
+  1. Add/adjust SeaORM entity in `src/entities/`.
+  2. Create a matching migration in `src/migration/`.
+  3. Start the app to apply migration; verify via admin panel or queries.
 
-### Admin Panel
-- `GET /admin` - Admin panel interface
-- `GET /api/admin/config` - Panel configuration
-- `GET /login` - Admin login page
+## Testing
+- Run all tests: `cargo test`.
+- Integration example: `tests/integration_tests.rs` spins up the Axum app and calls `/health`.
+- Add shared test utilities under `tests/common/`.
 
-### GraphQL
-- `GET /api/graphql` - GraphQL playground
-- `POST /api/graphql` - GraphQL API endpoint
+## Extending the API
+- Add a handler in `src/api/handlers/` (e.g., `foo.rs`).
+- Register the route in `src/api/routes.rs` using Axum `get`/`post`.
+- Update entities and migrations if persistence is needed.
+- GraphQL: `src/graphql/schema.rs` builds from entities—new entities can be exposed via Seaography.
 
-## Configuration
+## Admin panel customization
+- Configure via `pro_admin/config.toml` and `pro_admin/raw_tables/*`.
+- Static admin UI is served from `assets/admin/` at `/admin`.
+- Admin login page template: `assets/login.html` (served by `src/admin/login.rs`).
 
-### Environment Variables
-Create `.env` file:
-```env
-DATABASE_URL=sqlite://./data.db
-JWT_SECRET=your-secret-key
-RUST_LOG=info
-```
+## Release and build
+- Fast path (root script): `./dev.sh build` produces:
+  - Backend binary: `backend/target/release/backend`
+  - Frontend assets: `frontend/dist/`
+- Backend only:
+  ```bash
+  cargo build --release
+  ```
+- Provide production env via `backend/.env` or your process manager.
 
-### Admin Panel Configuration
-The admin panel is configured via TOML files in `pro_admin/`:
+## Security checklist
+- Use a strong `JWT_SECRET` in production.
+- Restrict CORS to trusted origins.
+- Consider adding rate limiting and audit logging.
+- Avoid leaking stack traces or internal errors to clients.
 
-```
-pro_admin/
-├── config.toml              # Site configuration
-└── raw_tables/
-    └── users.toml           # Table-specific settings
-```
-
-**Example:** `pro_admin/raw_tables/users.toml`
-```toml
-[create]
-enable = true
-hidden_columns = ["id", "created_at", "updated_at"]
-```
-
-## Development
-
-### Database Migrations
-```bash
-# Run migrations
-cargo run
-```
-
-### Testing
-```bash
-cargo test
-```
-
-### Demo Login
-- **Username:** demo@sea-ql.org
-- **Password:** (any password works)
-
-## Architecture
-
-- **Framework:** Axum for HTTP server
-- **Database:** SeaORM with SQLite
-- **GraphQL:** Seaography for auto-generated schema
-- **Admin:** SeaORM Pro for management interface
-- **Auth:** JWT tokens with bcrypt password hashing
-
-## Dependencies
-
-```toml
-[dependencies]
-axum = "0.8"
-sea-orm = { version = "1.1", features = ["runtime-tokio-rustls", "sqlx-sqlite"] }
-seaography = { version = "1.1", features = ["with-chrono", "with-uuid"] }
-sea-orm-pro = "0.1"
-async-graphql = "7.0"
-jsonwebtoken = "9.3"
-```
-
-## File Structure
-
-```
-src/
-├── admin/              # Admin panel handlers
-├── api/                # API route definitions  
-├── auth/               # Authentication logic
-├── entities/           # SeaORM entity definitions
-├── graphql/            # GraphQL schema configuration
-├── migration/          # Database migrations
-├── lib.rs              # Library exports
-└── main.rs             # Application entry point
-```
+## Links
+- High-level overview: `backend/OVERVIEW.md`
+- Frontend workflows: `../frontend/README.md`
+- Helper script: `../dev.sh`
