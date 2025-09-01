@@ -50,7 +50,6 @@ Rust-based frontend using Yew framework.
   1. Add a new variant to `Route`.
   2. Map it in `switch()` to a page component.
   3. Link using `yew_router::prelude::Link<Route>`.
-- `src/routes.rs` is a legacy/demo module; prefer `app_routes.rs`.
 
 ## Components, state, and error UX
 - Components live in `src/components/` and pages in `src/pages/`.
